@@ -1,0 +1,6 @@
+first value 
+second value 
+Multiplo 
+first value 
+second value 
+second input zero 
