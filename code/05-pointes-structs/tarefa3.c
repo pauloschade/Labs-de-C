@@ -12,6 +12,16 @@ typedef struct {
 } ponto;
 
 // TODO: declare função manhattan aqui. Veja abaixo como ela será usada
+int manhattan(ponto p1, ponto p2) {
+    int dist;
+
+    dist = p1.x - p2.x + p1.y - p2.y;
+    if (dist < 0) {
+        return dist * -1;
+    }
+    
+    return dist;
+}
 
 int main() {
     

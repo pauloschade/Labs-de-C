@@ -13,7 +13,7 @@ void checaMultiplo(){
     int unused __attribute__((unused));
 
     do {
-
+      
       printf("first value \n");
       unused = scanf("%d", &n1);
       printf("second value \n");
