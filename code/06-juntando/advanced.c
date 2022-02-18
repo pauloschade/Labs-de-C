@@ -65,10 +65,14 @@ void crop(image img, image *pcropped_img, int max_heigth, int max_length ) {
 
 void blur(image img, image *pblurred_img) {
   // line column
+  pblurred_img -> heigth = img.heigth;
+  pblurred_img -> length = img.length;
   int count;
   int row, col;
   for (row=0; row < img.heigth; row++) {
     for (col=0; col < img.length; col++) {
+
+      pblurred_img -> matrix[row][col] = 0;
 
       count = 0;
       int rowCoords[] = { row-1, row, row+1 };
@@ -78,35 +82,77 @@ void blur(image img, image *pblurred_img) {
         int prow = rowCoords[r];
 
         if (prow >= 0 && prow <= img.heigth) {
-            for (int c = 0; c < 3; c++) {
 
-              int pcol = colCoords[c];
+          for (int c = 0; c < 3; c++) {
 
-              if (pcol >= 0 && pcol <= img.length) {
-                
-              }
-              
+            int pcol = colCoords[c];
+
+            if (pcol >= 0 && pcol <= img.length) {
+              pblurred_img -> matrix[row][col] += img.matrix[prow][pcol];
+              count ++;
+            }
           }
         }
-
       }
+      pblurred_img -> matrix[row][col] = pblurred_img -> matrix[row][col]/count;
+    }
+  }
+}
+
+void border(image img, image *pborder_img) {
+  // line column
+  pborder_img -> heigth = img.heigth;
+  pborder_img -> length = img.length;
+  int row, col;
+  for (row=0; row < img.heigth; row++) {
+    for (col=0; col < img.length; col++) {
+
+      pborder_img -> matrix[row][col] =  4 * img.matrix[row][col];
+
+      int rowCoords[] = { row-1, row, row+1 };
+      int colCoords[] = { col-1, col, col+1 };
+
+      for(int r = 0; r < 3; r++) {
+        int prow = rowCoords[r];
+
+        if (prow >= 0 && prow <= img.heigth) {
+
+          for (int c = 0; c < 3; c++) {
+
+            int pcol = colCoords[c];
+            if (pcol >= 0 && pcol <= img.length) {
+              if ((pcol == 0 || prow == 0) && (pcol != 0 && prow != 0)) {
+                pborder_img -> matrix[row][col] -= img.matrix[prow][pcol];
+              }
+
+            }
+          }
+        }
+      }
+      if (pborder_img -> matrix[row][col] < 0) {
+        pborder_img -> matrix[row][col] = pborder_img -> matrix[row][col] * -1;
+      }
+      
     }
   }
 }
 
 int main() {
 
-  int max_h, max_l;
-  image img, cropped_img;
+  image img, edit_img;
 
   read_image(&img);
 
-  max_h = 50;
-  max_l = 50;
+  blur(img, &edit_img);
 
-  crop(img, &cropped_img, max_h, max_l);
+  //border(img, &edit_img);
+
+  // int max_h, max_l;
+  // max_h = 50;
+  // max_l = 50;
+  //crop(img, &cropped_img, max_h, max_l);
   
-  write_img(cropped_img);
+  write_img(edit_img);
 
   return 0;
 }
