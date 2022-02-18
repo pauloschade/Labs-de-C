@@ -49,8 +49,18 @@ void ex2() {
   printf("area: %d, perimeter: %d \n", area, perimeter);
 }
 
+void test() {
+  int v;
+  int *p;
+  v = 5;
+  p = &v;
+  printf("valor de p %p \n", p);
+  printf("valor apontado %d \n", *p);
+  printf("endereco de v %p. \n", (void *) &v);
+}
+
 int main() {
-  ex2();
+  test();
 
   return 0;
 }

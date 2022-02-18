@@ -11,9 +11,15 @@ typedef struct {
     int y;
 } ponto;
 
-// TODO: declare função medio aqui. Veja abaixo como ela será usada
 int medio(ponto a, ponto b, ponto *m) {
+  
+  if(a.x == b.x && a.y == b.y) {
     return 0;
+  }
+
+  m -> x = (a.x + b.x)/2;
+  m -> y = (a.y + b.y)/2;
+  return 1;
 }
 
 int main() {
